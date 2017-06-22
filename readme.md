@@ -1,4 +1,5 @@
 # Sitecore.Support.103751
+<<<<<<< HEAD
 Handle not found error will appear In Experiance Editor  if you delete page that has reference to another item (broken link dialog)
 
 ## License  

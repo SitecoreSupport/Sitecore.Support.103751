@@ -15,7 +15,7 @@ using Sitecore.StringExtensions;
 
 namespace Sitecore.Support.Shell.Applications.WebEdit
 {
-    public class WebEditRibbonForm: Sitecore.Shell.Applications.WebEdit.WebEditRibbonForm
+    public class WebEditRibbonForm : Sitecore.Shell.Applications.WebEdit.WebEditRibbonForm
     {
         private ID parentID;
 
@@ -71,7 +71,18 @@ namespace Sitecore.Support.Shell.Applications.WebEdit
             {
                 if (((!info.RootPath.IsNullOrEmpty() && !info.StartItem.IsNullOrEmpty()) && (!info.Domain.Equals("sitecore") && !info.Domain.Equals(""))) && !info.VirtualFolder.Contains("/sitecore modules/web"))
                 {
-                    Item item2 = Database.GetDatabase("master").GetItem(info.RootPath + info.StartItem);
+                    Item item2 = null;
+
+                    if (item.Paths.FullPath.Contains(info.RootPath))
+                    {
+                        item2 = Database.GetDatabase("master").GetItem(info.RootPath + info.StartItem);
+                        if (item2 == null) continue;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    Assert.IsNotNull(item2, "Sitecore.Support.103751 : Current StartItem can't be null");
                     if (item2.ParentID.Equals(item.ParentID))
                         return site = info;
                     if (item.Paths.Path.Contains(item2.Parent.Paths.Path))
